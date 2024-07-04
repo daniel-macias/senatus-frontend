@@ -37,20 +37,23 @@ export const updateCongressById = async (id, updatedCongress) => {
 }
 
 export const createCongress = async (newCongress) => {
-  await axios.post(API_URL, {
-    query: `
-      mutation {
-        createCongress(input: {
-          name: "${newCongress.name}",
-          organization: "${newCongress.organization}",
-          description: "${newCongress.description}"
-        }) {
-          _id
+    const response = await axios.post(API_URL, {
+      query: `
+        mutation($createCongressInput: CreateCongressInput!) {
+          createCongress(createCongressInput: $createCongressInput) {
+            _id
+            name
+            organization
+            description
+          }
         }
+      `,
+      variables: {
+        createCongressInput: newCongress
       }
-    `,
-  })
-}
+    })
+    return response.data.data.createCongress
+  }
 
 export const getAllCongresses = async () => {
     const response = await axios.post(API_URL, {

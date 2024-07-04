@@ -1,82 +1,33 @@
 <template>
-  <DashboardLayout>
-    <nuxt-ui-card class="p-4">
-      <h2>{{ isEditing ? 'Edit Congress' : 'Create Congress' }}</h2>
-      <form @submit.prevent="submitForm">
-        <div class="mb-4">
-          <label for="name" class="block text-gray-700">Name</label>
-          <input
-            type="text"
-            id="name"
-            v-model="congress.name"
-            class="mt-1 block w-full"
-            required
-          />
-        </div>
-
-        <div class="mb-4">
-          <label for="organization" class="block text-gray-700">Organization</label>
-          <input
-            type="text"
-            id="organization"
-            v-model="congress.organization"
-            class="mt-1 block w-full"
-            required
-          />
-        </div>
-
-        <div class="mb-4">
-          <label for="description" class="block text-gray-700">Description</label>
-          <textarea
-            id="description"
-            v-model="congress.description"
-            class="mt-1 block w-full"
-          ></textarea>
-        </div>
-
-        <div class="flex justify-end">
-          <button type="submit" class="btn btn-primary">
-            {{ isEditing ? 'Update' : 'Create' }}
-          </button>
-        </div>
-      </form>
-    </nuxt-ui-card>
-  </DashboardLayout>
+  <form @submit.prevent="handleSubmit">
+    <div class="mb-4">
+      <UInput v-model="form.name" label="Name" required placeholder="Name" />
+    </div>
+    <div class="mb-4">
+      <UInput v-model="form.organization" label="Organization" required placeholder="Organization" />
+    </div>
+    <div class="mb-4">
+      <UInput type="textarea" v-model="form.description" label="Description" placeholder="Description" />
+    </div>
+    <div class="flex justify-end">
+      <UButton type="submit" class="btn-primary">Create</UButton>
+    </div>
+  </form>
 </template>
 
-<script>
-import DashboardLayout from '@/components/DashboardLayout.vue'
+<script setup>
+import { ref } from 'vue'
 
-export default {
-  components: {
-    DashboardLayout,
-  },
-  data() {
-    return {
-      isEditing: false,
-      congress: {
-        name: '',
-        organization: '',
-        description: '',
-      },
-    }
-  },
-  methods: {
-    submitForm() {
-      // Handle form submission (create or update congress)
-      if (this.isEditing) {
-        // Update existing congress
-      } else {
-        // Create new congress
-      }
-    },
-  },
-  created() {
-    if (this.$route.params.id) {
-      this.isEditing = true;
-      // Fetch congress data by ID and populate the form
-    }
-  },
+const form = ref({
+  name: '',
+  organization: '',
+  description: ''
+})
+
+const emit = defineEmits(['submit'])
+
+const handleSubmit = () => {
+  emit('submit', form.value)
 }
 </script>
 

@@ -1,28 +1,27 @@
 <template>
   <DashboardLayout>
-    <nuxt-ui-card class="p-4">
-      <h2>Create Congress</h2>
-      <Form @submit="createCongress" />
-    </nuxt-ui-card>
+    <UCard class="p-4">
+      <template #header>
+        <h2 class="text-2xl font-bold">Create Congress</h2>
+      </template>
+      <div class="mt-4">
+        <Form @submit="createCongressHandler" />
+      </div>
+    </UCard>
   </DashboardLayout>
 </template>
 
-<script>
+<script setup>
+import { useRouter } from 'vue-router'
 import DashboardLayout from '@/components/DashboardLayout.vue'
 import Form from '@/components/Congress/Form.vue'
 import { createCongress } from '@/services/congressService'
 
-export default {
-  components: {
-    DashboardLayout,
-    Form,
-  },
-  methods: {
-    async createCongress(newCongress) {
-      await createCongress(newCongress)
-      this.$router.push('/congress')
-    },
-  },
+const router = useRouter()
+
+const createCongressHandler = async (newCongress) => {
+  await createCongress(newCongress)
+  router.push('/congress')
 }
 </script>
 
