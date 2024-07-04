@@ -1,21 +1,23 @@
 <template>
   <DashboardLayout>
-    <nuxt-ui-card class="p-4">
-      <h2>Congresses</h2>
-      <List :congresses="congresses" @delete="deleteCongress" />
-    </nuxt-ui-card>
+    <div class="bg-gray-100 min-h-screen">
+      <h2 class="text-2xl font-bold mb-4 text-gray-700">Congresses</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <CongressCard v-for="congress in congresses" :key="congress._id" :congress="congress" />
+      </div>
+    </div>
   </DashboardLayout>
 </template>
 
 <script>
 import DashboardLayout from '@/components/DashboardLayout.vue'
-import List from '@/components/Congress/List.vue'
-import { getAllCongresses, deleteCongressById } from '@/services/congressService'
+import CongressCard from '@/components/Congress/CongressCard.vue'
+import { getAllCongresses } from '@/services/congressService'
 
 export default {
   components: {
     DashboardLayout,
-    List,
+    CongressCard,
   },
   data() {
     return {
@@ -24,12 +26,6 @@ export default {
   },
   async created() {
     this.congresses = await getAllCongresses()
-  },
-  methods: {
-    async deleteCongress(congressId) {
-      await deleteCongressById(congressId)
-      this.congresses = await getAllCongresses()
-    },
   },
 }
 </script>

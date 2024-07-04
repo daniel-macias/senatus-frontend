@@ -1,33 +1,29 @@
 <template>
   <div>
-    <nuxt-ui-card v-for="congress in congresses" :key="congress._id" class="mb-4">
-      <h3>{{ congress.name }}</h3>
-      <p>{{ congress.organization }}</p>
-      <p>{{ congress.description }}</p>
-    </nuxt-ui-card>
+    <CongressCard
+      v-for="congress in congresses"
+      :key="congress._id"
+      :congress="congress"
+    />
   </div>
 </template>
 
 <script>
-import { getAllCongresses } from '@/services/congressService.js';
+import CongressCard from './CongressCard.vue'
 
 export default {
-  data() {
-    return {
-      congresses: [],
-    };
+  props: {
+    congresses: {
+      type: Array,
+      required: true,
+    },
   },
-  async created() {
-    try {
-      const response = await getAllCongresses();
-      this.congresses = response;
-    } catch (error) {
-      console.error('Error fetching congresses:', error);
-    }
+  components: {
+    CongressCard,
   },
-};
+}
 </script>
 
 <style scoped>
-/* Add any custom styles for the list of congresses here */
+/* Add any custom styles for the List component here */
 </style>

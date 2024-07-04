@@ -1,10 +1,12 @@
 <template>
-    <div class="flex min-h-screen">
-      <SideBar />
-      <div class="flex-1">
-        <Header />
-        <div class="container mx-auto py-6 px-4">
-          <slot />
+    <div class="flex flex-col min-h-screen bg-gray-100">
+      <Header />
+      <div class="flex flex-1">
+        <SideBar />
+        <div class="flex-1">
+          <div class="container mx-auto py-6 px-4">
+            <slot />
+          </div>
         </div>
       </div>
     </div>
