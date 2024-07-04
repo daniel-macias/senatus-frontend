@@ -1,15 +1,20 @@
 <template>
-    <div>
-      <!-- Your template code here -->
-    </div>
-  </template>
-  
-  <script>
-  export default {
-    // Your script code here
-  }
-  </script>
-  
-  <style scoped>
-  /* Your style code here */
-  </style>
+  <DashboardLayout>
+    <h1>Congress Details</h1>
+    <!-- Include other components or page-specific content -->
+  </DashboardLayout>
+</template>
+
+<script>
+import DashboardLayout from '@/components/DashboardLayout.vue'
+
+export default {
+  components: {
+    DashboardLayout,
+  },
+}
+</script>
+
+<style scoped>
+/* Add any custom styles for the congress page here */
+</style>

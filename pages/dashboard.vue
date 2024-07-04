@@ -2,7 +2,7 @@
   <div class="flex flex-col min-h-screen bg-gray-100">
     <Header />
     <div class="flex flex-1">
-      <Sidebar />
+      <SideBar />
       <div class="flex-1">
         <div class="container mx-auto py-6 px-4">
           <NotificationBar />
@@ -35,14 +35,14 @@
 </template>
 
 <script>
-import Header from '../components/Dashboard/Header.vue'
+import Header from '../components/Header.vue'
 import SummaryCard from '../components/Dashboard/SummaryCard.vue'
 import ChartCard from '../components/Dashboard/ChartCard.vue'
 import RecentActivity from '../components/Dashboard/RecentActivity.vue'
 import QuickActions from '../components/Dashboard/QuickActions.vue'
 import Footer from '../components/Dashboard/Footer.vue'
 import NotificationBar from '../components/Dashboard/NotificationBar.vue'
-import Sidebar from '../components/Dashboard/Sidebar.vue'
+import SideBar from '~/components/SideBar.vue'
 
 export default {
   components: {
@@ -53,7 +53,7 @@ export default {
     QuickActions,
     Footer,
     NotificationBar,
-    Sidebar
+    SideBar
   }
 }
 </script>

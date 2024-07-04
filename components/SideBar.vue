@@ -1,24 +1,24 @@
 <template>
     <nuxt-ui-sidebar class="w-64 h-full bg-blue-700 text-white p-4">
       <div class="sidebar-section">Components</div>
-      <nuxt-ui-nav-item to="/congress" class="sidebar-item">Congresses</nuxt-ui-nav-item>
-      <nuxt-ui-nav-item to="/member" class="sidebar-item">Members</nuxt-ui-nav-item>
-      <nuxt-ui-nav-item to="/party" class="sidebar-item">Parties</nuxt-ui-nav-item>
-      <nuxt-ui-nav-item to="/poll" class="sidebar-item">Polls</nuxt-ui-nav-item>
-      <nuxt-ui-nav-item to="/session" class="sidebar-item">Sessions</nuxt-ui-nav-item>
-      <nuxt-ui-nav-item to="/vote" class="sidebar-item">Votes</nuxt-ui-nav-item>
+      <nuxt-link to="/congress" class="sidebar-item">Congresses</nuxt-link>
+      <nuxt-link to="/member" class="sidebar-item">Members</nuxt-link>
+      <nuxt-link to="/party" class="sidebar-item">Parties</nuxt-link>
+      <nuxt-link to="/poll" class="sidebar-item">Polls</nuxt-link>
+      <nuxt-link to="/session" class="sidebar-item">Sessions</nuxt-link>
+      <nuxt-link to="/vote" class="sidebar-item">Votes</nuxt-link>
   
       <div class="sidebar-divider"></div>
   
       <div class="sidebar-section">Documentation</div>
-      <nuxt-ui-nav-item to="/installation" class="sidebar-item">Installation</nuxt-ui-nav-item>
-      <nuxt-ui-nav-item to="/getting-started" class="sidebar-item">Getting Started</nuxt-ui-nav-item>
+      <nuxt-link to="/installation" class="sidebar-item">Installation</nuxt-link>
+      <nuxt-link to="/getting-started" class="sidebar-item">Getting Started</nuxt-link>
   
       <div class="sidebar-divider"></div>
   
       <div class="sidebar-section">Account</div>
-      <nuxt-ui-nav-item to="/user" class="sidebar-item">User</nuxt-ui-nav-item>
-      <nuxt-ui-nav-item to="/settings" class="sidebar-item">Settings</nuxt-ui-nav-item>
+      <nuxt-link to="/user" class="sidebar-item">User</nuxt-link>
+      <nuxt-link to="/settings" class="sidebar-item">Settings</nuxt-link>
     </nuxt-ui-sidebar>
   </template>
   
