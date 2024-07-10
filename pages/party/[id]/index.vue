@@ -12,12 +12,6 @@
           <p><strong>Headquarters:</strong> {{ party.headquarters }}</p>
           <p><strong>Website:</strong> {{ party.website }}</p>
           <p><strong>Photo URL:</strong> {{ party.photoUrl }}</p>
-          <p><strong>Social Media:</strong></p>
-          <ul>
-            <li v-for="media in party.socialMedia" :key="media.platform">
-              <a :href="media.url" target="_blank">{{ media.platform }}</a>
-            </li>
-          </ul>
         </div>
       </UCard>
     </DashboardLayout>

@@ -9,7 +9,6 @@
         <p class="text-gray-700 mt-2">{{ party.headquarters }}</p>
         <p class="text-gray-700 mt-2">{{ party.website }}</p>
         <p class="text-gray-700 mt-2">{{ party.photoUrl }}</p>
-        <p class="text-gray-700 mt-2">{{ party.socialMedia }}</p>
       </UCard>
     </nuxt-link>
   </template>

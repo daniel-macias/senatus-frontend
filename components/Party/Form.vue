@@ -24,9 +24,6 @@
     <div class="mb-4">
       <UInput v-model="form.photoUrl" label="Photo URL" placeholder="Photo URL" />
     </div>
-    <div class="mb-4">
-      <UInput type="textarea" v-model="form.socialMedia" label="Social Media" placeholder="Social Media (JSON format)" />
-    </div>
     <div class="flex justify-end">
       <UButton type="submit" class="btn-primary">Submit</UButton>
     </div>
@@ -44,8 +41,7 @@ const form = ref({
   founded: '',
   headquarters: '',
   website: '',
-  photoUrl: '',
-  socialMedia: ''
+  photoUrl: ''
 })
 
 const emit = defineEmits(['submit'])

@@ -16,10 +16,6 @@ export const getPartyById = async (id) => {
           headquarters
           website
           photoUrl
-          socialMedia {
-            platform
-            url
-          }
         }
       }
     `,
@@ -39,8 +35,7 @@ export const updatePartyById = async (id, updatedParty) => {
           founded: "${updatedParty.founded}",
           headquarters: "${updatedParty.headquarters}",
           website: "${updatedParty.website}",
-          photoUrl: "${updatedParty.photoUrl}",
-          socialMedia: ${JSON.stringify(updatedParty.socialMedia)}
+          photoUrl: "${updatedParty.photoUrl}"
         }) {
           _id
         }
@@ -63,10 +58,6 @@ export const createParty = async (newParty) => {
           headquarters
           website
           photoUrl
-          socialMedia {
-            platform
-            url
-          }
         }
       }
     `,
@@ -92,10 +83,6 @@ export const getAllParties = async () => {
           headquarters
           website
           photoUrl
-          socialMedia {
-            platform
-            url
-          }
         }
       }
     `,
