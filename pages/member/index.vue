@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import DashboardLayout from '@/components/DashboardLayout.vue';
-import { getAllMembers } from '@/services/memberService';
+import { getAllMembersWithParty } from '@/services/memberService';
 
 interface Member {
   _id: string;
   name: string;
-  party: string;
+  party: { name: string; color: string; }; // Update the type definition for party
   position: string;
   photoUrl?: string;
   startDate?: string;
@@ -15,17 +15,27 @@ interface Member {
 }
 
 const columns = [{
+    key: '_id',
+    label: 'View',
+    render: (value: string) => {
+      return `<nuxt-link to="/member/${value}" class="text-blue-500 underline">View</nuxt-link>`;
+    }
+  },{
   key: 'name',
   label: 'Name',
   sortable: true
 }, {
-  key: 'party',
+  key: 'party.name',
   label: 'Party',
   sortable: true
+},
+{
+  key: 'party.color',
+  label: 'Color'
 }, {
   key: 'position',
   label: 'Position'
-}]
+}];
 
 const members = ref<Member[]>([]);
 const loading = ref(true);
@@ -56,16 +66,16 @@ const paginatedRows = computed(() => {
 onMounted(async () => {
   try {
     console.log('Fetching members...');
-    const fetchedMembers = await getAllMembers();
+    const fetchedMembers = await getAllMembersWithParty();
     console.log('Members:', fetchedMembers);
     members.value = fetchedMembers;
   } catch (e) {
     console.error(e);
   } finally {
     loading.value = false;
+    console.log(members.value);
   }
 });
-
 </script>
 
 <template>

@@ -9,7 +9,9 @@ export const createMember = async (newMember) => {
         createMember(input: $input) {
           _id
           name
-          party
+          party {
+            _id
+          }
           position
           photoUrl
           startDate
@@ -25,14 +27,17 @@ export const createMember = async (newMember) => {
   return response.data.data.createMember
 }
 
-export const getAllMembers = async () => {
+export const getAllMembersWithParty = async () => {
   const response = await axios.post(API_URL, {
     query: `
       query {
-        getAllMembers {
+        getAllMembersWithParty {
           _id
           name
-          party
+          party{
+            name,
+            color
+          }
           position
           startDate
           endDate
@@ -41,5 +46,9 @@ export const getAllMembers = async () => {
       }
     `,
   })
-  return response.data.data.getAllMembers
+  if (response.data && response.data.data && response.data.data.getAllMembersWithParty) {
+    return response.data.data.getAllMembersWithParty;
+  } else {
+    throw new Error('Failed to fetch members with party');
+  }
 }
