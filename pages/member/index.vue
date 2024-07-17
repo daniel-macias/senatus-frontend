@@ -2,11 +2,12 @@
 import { ref, onMounted, computed } from 'vue';
 import DashboardLayout from '@/components/DashboardLayout.vue';
 import { getAllMembersWithParty } from '@/services/memberService';
+import { useRouter } from 'vue-router';
 
 interface Member {
   _id: string;
   name: string;
-  party: { name: string; color: string; }; // Update the type definition for party
+  party: { name: string; color: string; };
   position: string;
   photoUrl?: string;
   startDate?: string;
@@ -14,28 +15,32 @@ interface Member {
   bio?: string;
 }
 
-const columns = [{
-    key: '_id',
-    label: 'View',
-    render: (value: string) => {
-      return `<nuxt-link to="/member/${value}" class="text-blue-500 underline">View</nuxt-link>`;
-    }
-  },{
-  key: 'name',
-  label: 'Name',
-  sortable: true
-}, {
-  key: 'party.name',
-  label: 'Party',
-  sortable: true
-},
-{
-  key: 'party.color',
-  label: 'Color'
-}, {
-  key: 'position',
-  label: 'Position'
-}];
+const router = useRouter();
+
+const columns = [
+  {
+    key: 'name',
+    label: 'Name',
+    sortable: true
+  },
+  {
+    key: 'party.name',
+    label: 'Party',
+    sortable: true
+  },
+  {
+    key: 'party.color',
+    label: 'Color'
+  },
+  {
+    key: 'position',
+    label: 'Position'
+  },
+  {
+    key: 'actions',
+    label: 'View'
+  }
+];
 
 const members = ref<Member[]>([]);
 const loading = ref(true);
@@ -76,6 +81,12 @@ onMounted(async () => {
     console.log(members.value);
   }
 });
+
+const goToMember = (id: any) => {
+  console.log(id);
+  //router.push(`/member/${id}`)
+
+}
 </script>
 
 <template>
@@ -91,7 +102,11 @@ onMounted(async () => {
         :loading="loading" 
         :empty-state="{ icon: 'i-heroicons-circle-stack-20-solid', label: 'No items.' }" 
         class="w-full"
-      />
+      >
+        <template #actions-data="{ row }">
+          <UButton  @click="goToMember(row._id)" color="primary" variant="solid">View</UButton>
+        </template>
+      </UTable>
       <div class="flex justify-end px-3 py-3.5 border-t border-gray-200 dark:border-gray-700">
         <UPagination v-model="page" :page-count="pageCount" :total="filteredRows.values.length" />
       </div>
