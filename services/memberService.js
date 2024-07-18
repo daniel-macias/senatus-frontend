@@ -52,3 +52,33 @@ export const getAllMembersWithParty = async () => {
     throw new Error('Failed to fetch members with party');
   }
 }
+
+export const getMemberById = async (id) => {
+  const response = await axios.post(API_URL, {
+    query: `
+      query {
+        getMemberById(id: "${id}") {
+          _id
+          name
+          party {
+            _id
+            name
+            ideology
+            color
+            leader
+            founded
+            headquarters
+            website
+            photoUrl
+          }
+          position
+          photoUrl
+          startDate
+          endDate
+          bio
+        }
+      }
+    `,
+  });
+  return response.data.data.getMemberById;
+};

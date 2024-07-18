@@ -84,7 +84,7 @@ onMounted(async () => {
 
 const goToMember = (id: any) => {
   console.log(id);
-  //router.push(`/member/${id}`)
+  router.push(`/member/${id}`)
 
 }
 </script>
