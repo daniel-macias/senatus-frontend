@@ -87,13 +87,18 @@ const goToMember = (id: any) => {
   router.push(`/member/${id}`)
 
 }
+
+const handleGoToMemberCreator = () => {
+  router.push(`/member/create`)
+}
 </script>
 
 <template>
   <DashboardLayout>
     <div class="bg-gray-100 min-h-screen">
       <h2 class="text-2xl font-bold mb-4 text-gray-700">Members</h2>
-      <div class="flex px-3 py-3.5 border-b border-gray-200 dark:border-gray-700">
+      <UButton @click="handleGoToMemberCreator()" color="primary" variant="solid">Create Member</UButton>
+      <div class="flex py-3.5 border-b border-gray-200 dark:border-gray-700">
         <UInput v-model="q" placeholder="Filter members..." />
       </div>
       <UTable 

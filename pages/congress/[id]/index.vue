@@ -1,27 +1,32 @@
 <template>
   <DashboardLayout>
-    <UCard class="p-4">
-      <template #header>
-        <h2 class="text-2xl font-bold" v-if="congress">{{ congress.name }}</h2>
-      </template>
+      <h2 class="text-2xl font-bold text-gray-800" v-if="congress">{{ congress.name }}</h2>
       <div class="mt-4" v-if="congress">
-        <p><strong>Organization:</strong> {{ congress.organization }}</p>
-        <p><strong>Description:</strong> {{ congress.description }}</p>
-        <p><strong>Members:</strong></p>
-        <ul>
-          <li v-for="member in congress.members" :key="member._id">
-            <strong>Name:</strong> {{ member.name }}
-            <ul>
-              <li><strong>Party Name:</strong> {{ member.party.name }}</li>
-              <li><strong>Party Color:</strong> {{ member.party.color }}</li>
-            </ul>
-          </li>
-        </ul>
+        <p class="text-gray-600"><strong>Organization:</strong> {{ congress.organization }}</p>
+        <p class="text-gray-600"><strong>Description:</strong> {{ congress.description }}</p>
       </div>
-      <div v-else>
-        Loading...
+      <div class="bg-gray-100 mt-4">
+        <h2 class="text-2xl font-bold mb-4 text-gray-700">Members</h2>
+        <div class="flex py-3.5 border-b border-gray-200 dark:border-gray-700">
+          <UInput v-model="q" placeholder="Filter members..." />
+        </div>
+        <UTable 
+          :rows="paginatedRows" 
+          :columns="columns" 
+          :loading="loading" 
+          :empty-state="{ icon: 'i-heroicons-circle-stack-20-solid', label: 'No items.' }" 
+          class="w-full"
+        >
+          <template #actions-data="{ row }">
+            <UButton @click="goToMember(row._id)" color="primary" variant="solid">View</UButton>
+          </template>
+        </UTable>
+        <div class="flex justify-end px-3 py-3.5 border-t border-gray-200 dark:border-gray-700">
+          <UPagination v-model="page" :page-count="pageCount" :total="filteredRows.values.length" />
+        </div>
+        <div v-if="loading">Loading...</div>
+        <div v-if="error">{{ error }}</div>
       </div>
-    </UCard>
   </DashboardLayout>
 </template>
 
@@ -51,19 +56,74 @@ interface Congress {
   members: Member[];
 }
 
-const congress = ref<Congress | null>(null);
 const route = useRoute();
+const router = useRouter();
+
+const congress = ref<Congress | null>(null);
+const members = ref<Member[]>([]);
+const loading = ref(true);
+const error = ref<string | null>(null);
+
+const columns = [
+  {
+    key: 'name',
+    label: 'Name',
+    sortable: true
+  },
+  {
+    key: 'party.name',
+    label: 'Party',
+    sortable: true
+  },
+  {
+    key: 'party.color',
+    label: 'Color'
+  },
+  {
+    key: 'actions',
+    label: 'View'
+  }
+];
+
+const q = ref('');
+const page = ref(1);
+const pageCount = 5;
+
+const filteredRows = computed(() => {
+  if (!q.value) {
+    return members.value || [];
+  }
+
+  return (members.value || []).filter((member: Member) => {
+    return Object.values(member).some((value) => {
+      return String(value).toLowerCase().includes(q.value.toLowerCase());
+    });
+  });
+});
+
+const paginatedRows = computed(() => {
+  const start = (page.value - 1) * pageCount;
+  const end = start + pageCount;
+  return filteredRows.value.slice(start, end);
+});
+
+const goToMember = (id: any) => {
+  router.push(`/member/${id}`);
+};
 
 onMounted(async () => {
   try {
-    congress.value = await getCongressById(route.params.id);
-    console.log('Congress:', congress.value);
-  } catch (error) {
-    console.error(error);
+    const congressId = route.params.id;
+    const fetchedCongress = await getCongressById(congressId);
+    congress.value = fetchedCongress;
+    members.value = fetchedCongress.members || [];
+  } catch (e) {
+    console.error(e);
+  } finally {
+    loading.value = false;
   }
 });
 </script>
 
 <style scoped>
-/* Add any custom styles for the view page here */
 </style>
