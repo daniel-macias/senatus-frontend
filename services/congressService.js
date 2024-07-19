@@ -5,20 +5,30 @@ const API_URL = 'http://localhost:3000/graphql'
 export const getCongressById = async (id) => {
   const response = await axios.post(API_URL, {
     query: `
-      query {
-        congress(id: "${id}") {
+      query getCongressById($id: ID!) {
+        getCongressById(id: $id) {
           _id
           name
           organization
           description
-          members
-          sessions
+          members {
+            _id
+            name
+            party {
+              _id
+              name
+              color
+            }
+          }
         }
       }
     `,
-  })
-  return response.data.data.congress
-}
+    variables: {
+      id: id,
+    },
+  });
+  return response.data.data.getCongressById;
+};
 
 export const updateCongressById = async (id, updatedCongress) => {
   await axios.post(API_URL, {
