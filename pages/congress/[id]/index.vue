@@ -17,6 +17,16 @@
           :empty-state="{ icon: 'i-heroicons-circle-stack-20-solid', label: 'No items.' }" 
           class="w-full"
         >
+          <template #name-data="{ row }">
+            <td :style="{ color: 'black' }">
+              {{ row.name }}
+            </td>
+          </template>
+          <template #party.name-data="{ row }">
+            <td :style="{ backgroundColor: row.party.color, color: 'white' }">
+              {{ row.party.name }}
+            </td>
+          </template>
           <template #actions-data="{ row }">
             <UButton @click="goToMember(row._id)" color="primary" variant="solid">View</UButton>
           </template>
@@ -68,20 +78,19 @@ const columns = [
   {
     key: 'name',
     label: 'Name',
-    sortable: true
+    sortable: true,
+    class: 'dark:bg-gray-600'
   },
   {
     key: 'party.name',
     label: 'Party',
-    sortable: true
-  },
-  {
-    key: 'party.color',
-    label: 'Color'
+    sortable: true,
+    class: 'dark:bg-gray-600'
   },
   {
     key: 'actions',
-    label: 'View'
+    label: 'View',
+    class: 'dark:bg-gray-600'
   }
 ];
 
