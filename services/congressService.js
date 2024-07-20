@@ -31,20 +31,24 @@ export const getCongressById = async (id) => {
 };
 
 export const updateCongressById = async (id, updatedCongress) => {
-  await axios.post(API_URL, {
+  const response = await axios.post(API_URL, {
     query: `
-      mutation {
-        updateCongress(id: "${id}", input: {
-          name: "${updatedCongress.name}",
-          organization: "${updatedCongress.organization}",
-          description: "${updatedCongress.description}"
-        }) {
+      mutation($id: String!, $updateCongressInput: UpdateCongressInput!) {
+        updateCongress(id: $id, updateCongressInput: $updateCongressInput) {
           _id
+          name
+          organization
+          description
         }
       }
     `,
-  })
-}
+    variables: {
+      id,
+      updateCongressInput: updatedCongress // Send only the fields that need updating
+    }
+  });
+  return response.data.data.updateCongress;
+};
 
 export const createCongress = async (newCongress) => {
     const response = await axios.post(API_URL, {

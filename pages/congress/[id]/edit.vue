@@ -1,43 +1,38 @@
 <template>
   <DashboardLayout>
-    <nuxt-ui-card class="p-4">
-      <h2>Edit Congress</h2>
-      <Form :congress="congress" @submit="updateCongress" />
-    </nuxt-ui-card>
+    <UCard class="p-4">
+      <template #header>
+        <h2 class="text-2xl font-bold">Edit Congress</h2>
+      </template>
+      <div class="mt-4">
+        <Form :congress="congress" @submit="updateCongressHandler" />
+      </div>
+    </UCard>
   </DashboardLayout>
 </template>
 
-<script>
-import DashboardLayout from '@/components/DashboardLayout.vue'
-import Form from '@/components/Congress/Form.vue'
-import { getCongressById, updateCongressById } from '@/services/congressService'
+<script setup>
+import { ref, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import DashboardLayout from '@/components/DashboardLayout.vue';
+import Form from '@/components/Congress/Form.vue';
+import { getCongressById, updateCongressById } from '@/services/congressService';
 
-export default {
-  components: {
-    DashboardLayout,
-    Form,
-  },
-  data() {
-    return {
-      congress: {
-        name: '',
-        organization: '',
-        description: '',
-      },
-    }
-  },
-  async created() {
-    const congressId = this.$route.params.id
-    this.congress = await getCongressById(congressId)
-  },
-  methods: {
-    async updateCongress(updatedCongress) {
-      const congressId = this.$route.params.id
-      await updateCongressById(congressId, updatedCongress)
-      this.$router.push('/congress')
-    },
-  },
-}
+const route = useRoute();
+const router = useRouter();
+const congress = ref(null);
+
+onMounted(async () => {
+  const congressId = route.params.id;
+  const fetchedCongress = await getCongressById(congressId);
+  congress.value = fetchedCongress;
+});
+
+const updateCongressHandler = async (updatedCongress) => {
+  const congressId = route.params.id;
+  await updateCongressById(congressId, updatedCongress);
+  router.push('/congress');
+};
 </script>
 
 <style scoped>
