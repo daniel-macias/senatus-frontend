@@ -4,6 +4,7 @@
       <div class="mt-4" v-if="congress">
         <p class="text-gray-600"><strong>Organization:</strong> {{ congress.organization }}</p>
         <p class="text-gray-600"><strong>Description:</strong> {{ congress.description }}</p>
+        <UButton @click="goToEdit()" color="primary" variant="solid">Edit Congress Details</UButton>
       </div>
       <div class="bg-gray-100 mt-4">
         <h2 class="text-2xl font-bold mb-4 text-gray-700">Members</h2>
@@ -119,6 +120,11 @@ const paginatedRows = computed(() => {
 const goToMember = (id: any) => {
   router.push(`/member/${id}`);
 };
+
+const goToEdit = () => {
+  const congressId = route.params.id;
+  router.push(`/congress/${congressId}/edit`);
+}
 
 onMounted(async () => {
   try {
