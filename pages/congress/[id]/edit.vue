@@ -3,6 +3,7 @@
     <UCard class="p-4">
       <template #header>
         <h2 class="text-2xl font-bold">Edit Congress</h2>
+        <div>{{congress}}</div>
       </template>
       <div class="mt-4">
         <Form :congress="congress" @submit="updateCongressHandler" />
@@ -15,7 +16,7 @@
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import DashboardLayout from '@/components/DashboardLayout.vue';
-import Form from '@/components/Congress/Form.vue';
+import Form from '@/components/Congress/EditForm.vue';
 import { getCongressById, updateCongressById } from '@/services/congressService';
 
 const route = useRoute();
@@ -26,6 +27,7 @@ onMounted(async () => {
   const congressId = route.params.id;
   const fetchedCongress = await getCongressById(congressId);
   congress.value = fetchedCongress;
+  console.log(congress.value);
 });
 
 const updateCongressHandler = async (updatedCongress) => {
