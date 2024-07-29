@@ -31,6 +31,10 @@ export const getCongressById = async (id) => {
 };
 
 export const updateCongressById = async (id, updatedCongress) => {
+  // Exclude the members array if it's not provided in the updatedCongress
+  const { members, ...rest } = updatedCongress;
+  const updateData = members ? { ...rest, memberIds: members.map(member => member._id) } : rest;
+
   const response = await axios.post(API_URL, {
     query: `
       mutation($id: String!, $updateCongressInput: UpdateCongressInput!) {
@@ -39,16 +43,19 @@ export const updateCongressById = async (id, updatedCongress) => {
           name
           organization
           description
+          members { _id name }
         }
       }
     `,
     variables: {
       id,
-      updateCongressInput: updatedCongress // Send only the fields that need updating
+      updateCongressInput: updateData // Send only the fields that need updating
     }
   });
+
   return response.data.data.updateCongress;
 };
+
 
 export const createCongress = async (newCongress) => {
     const response = await axios.post(API_URL, {

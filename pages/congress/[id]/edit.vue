@@ -3,7 +3,6 @@
     <UCard class="p-4">
       <template #header>
         <h2 class="text-2xl font-bold">Edit Congress</h2>
-        <div>{{congress}}</div>
       </template>
       <div class="mt-4">
         <Form :congress="congress" @submit="updateCongressHandler" />
