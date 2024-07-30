@@ -82,3 +82,35 @@ export const getMemberById = async (id) => {
   });
   return response.data.data.getMemberById;
 };
+
+export const updateMemberById = async (id, updatedMember) => {
+  // Remove _id and party if necessary
+  const { _id, party, ...rest } = updatedMember;
+
+  const response = await axios.post(API_URL, {
+    query: `
+      mutation($id: ID!, $input: UpdateMemberInput!) {
+        updateMember(id: $id, input: $input) {
+          _id
+          name
+          position
+          party {
+            _id
+            name
+            color
+          }
+          photoUrl
+          startDate
+          endDate
+          bio
+        }
+      }
+    `,
+    variables: {
+      id,
+      input: rest
+    }
+  });
+
+  return response.data.data.updateMember;
+};
