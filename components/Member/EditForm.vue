@@ -52,13 +52,13 @@
   const partyOptions = ref([])
   
   onMounted(async () => {
-    const parties = await getAllParties()
-    partyOptions.value = parties.map(party => ({ label: party.name, value: party._id }))
-    
-    if (props.member.party && props.member.party._id) {
-      form.value.party = props.member.party._id
+    const parties = await getAllParties();
+    partyOptions.value = parties.map(party => ({ label: party.name, value: party._id }));
+
+    if (props.member && props.member.party && props.member.party._id) {
+        form.value.party = props.member.party._id;
     }
-  })
+    });
   
   const emit = defineEmits(['submit'])
   
@@ -69,8 +69,8 @@
   }, { immediate: true, deep: true });
   
   const handleSubmit = () => {
-    emit('submit', form.value)
-  }
+    emit('submit', { ...form.value, party: form.value.party });
+    };
   </script>
   
   <style scoped>

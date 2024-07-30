@@ -84,8 +84,13 @@ export const getMemberById = async (id) => {
 };
 
 export const updateMemberById = async (id, updatedMember) => {
-  // Remove _id and party if necessary
-  const { _id, party, ...rest } = updatedMember;
+  // Prepare the data to be sent
+  const { _id, ...rest } = updatedMember;
+
+  // If party exists in the updatedMember, we send the ID
+  if (rest.party && typeof rest.party === 'object') {
+    rest.party = rest.party._id;
+  }
 
   const response = await axios.post(API_URL, {
     query: `
@@ -111,6 +116,6 @@ export const updateMemberById = async (id, updatedMember) => {
       input: rest
     }
   });
-
+  console.log(response.data.data.updateMember);
   return response.data.data.updateMember;
 };
