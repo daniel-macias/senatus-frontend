@@ -24,24 +24,41 @@ export const getPartyById = async (id) => {
 };
 
 export const updatePartyById = async (id, updatedParty) => {
-  await axios.post(API_URL, {
+  console.log(`Updating Party with ID: ${id}`);
+  
+  // Create a new object excluding the _id field
+  const { _id, ...dataToUpdate } = updatedParty;
+
+  console.log('Data being sent:', dataToUpdate);
+
+  const response = await axios.post(API_URL, {
     query: `
-      mutation {
-        updateParty(id: "${id}", input: {
-          name: "${updatedParty.name}",
-          ideology: "${updatedParty.ideology}",
-          color: "${updatedParty.color}",
-          leader: "${updatedParty.leader}",
-          founded: "${updatedParty.founded}",
-          headquarters: "${updatedParty.headquarters}",
-          website: "${updatedParty.website}",
-          photoUrl: "${updatedParty.photoUrl}"
-        }) {
+      mutation($id: ID!, $input: UpdatePartyInput!) {
+        updateParty(id: $id, input: $input) {
           _id
+          name
+          ideology
+          color
+          leader
+          founded
+          headquarters
+          website
+          photoUrl
         }
       }
     `,
+    variables: {
+      id,
+      input: dataToUpdate
+    }
   });
+
+  if (response.data.errors) {
+    console.error('Error in updatePartyById:', response.data.errors);
+    throw new Error(response.data.errors[0].message);
+  }
+
+  return response.data.data.updateParty;
 };
 
 export const createParty = async (newParty) => {
