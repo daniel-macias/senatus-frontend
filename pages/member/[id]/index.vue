@@ -4,6 +4,7 @@
       <template #header>
         <h2 class="text-2xl font-bold" v-if="member">{{ member.name }}</h2>
       </template>
+      <UButton @click="goToEdit()" color="primary" variant="solid">Edit Member Details</UButton>
       <div class="mt-4" v-if="member">
         <p><strong>Position:</strong> {{ member.position }}</p>
         <p><strong>Party:</strong> {{ member.party.name }}</p>
@@ -62,6 +63,13 @@ onMounted(async () => {
   member.value = await getMemberById(route.params.id)
   console.log('Member:', member.value)
 })
+
+const router = useRouter();
+
+const goToEdit = () => {
+  const congressId = route.params.id;
+  router.push(`/member/${congressId}/edit`);
+}
 
 </script>
 

@@ -4,6 +4,7 @@
       <template #header>
         <h2 class="text-2xl font-bold" v-if="party">{{ party.name }}</h2>
       </template>
+      <UButton @click="goToEdit()" color="primary" variant="solid">Edit Party Details</UButton>
       <div class="mt-4" v-if="party">
         <p><strong>Ideology:</strong> {{ party.ideology }}</p>
         <p><strong>Color:</strong> {{ party.color }}</p>
@@ -26,6 +27,13 @@ import { useRoute } from 'vue-router'
 import DashboardLayout from '@/components/DashboardLayout.vue'
 import { getPartyById } from '@/services/partyService'
 
+const router = useRouter();
+
+const goToEdit = () => {
+  const congressId = route.params.id;
+  router.push(`/party/${congressId}/edit`);
+}
+
 export default {
   components: {
     DashboardLayout,
@@ -44,7 +52,10 @@ export default {
 
     return { party }
   }
+  
 }
+
+
 </script>
 
 <style scoped>
